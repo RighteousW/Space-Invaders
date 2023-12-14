@@ -36,7 +36,32 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        # check if keystroke pressed is right or left
+        if event.type == pygame.KEYDOWN:
+            match event.key:
+                case pygame.K_a:
+                    player_x_change = -constant.PLAYER_X_MOVE
+                case pygame.K_d:
+                    player_x_change = constant.PLAYER_X_MOVE
+                case pygame.K_w:
+                    player_y_change = -constant.PLAYER_Y_MOVE
+                case pygame.K_s:
+                    player_y_change = constant.PLAYER_Y_MOVE
+
+        if event.type == pygame.KEYUP:
+            match event.key:
+                case pygame.K_a:
+                    player_x_change = 0
+                case pygame.K_d:
+                    player_x_change = 0
+                case pygame.K_w:
+                    player_y_change = 0
+                case pygame.K_s:
+                    player_y_change = 0
+
     # calling player method to paint the player on the screen
+    player_x += player_x_change
+    player_y += player_y_change
     player(player_x, player_y)
 
     # updating pygame for every loop iteration
