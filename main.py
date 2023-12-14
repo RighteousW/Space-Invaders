@@ -19,6 +19,12 @@ player_y = constant.PLAYER_START_POSITION_Y
 player_x_change = 0
 player_y_change = 0
 
+# control states
+right = False
+left = False
+up = False
+down = False
+
 
 # player method to paint player at certain coordinates
 def player(x, y):
@@ -36,28 +42,53 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        # check if keystroke pressed is right or left
+        # check if keystroke pressed is ADWS (for left, right, up and down)
         if event.type == pygame.KEYDOWN:
             match event.key:
+                # move player left
                 case pygame.K_a:
-                    player_x_change = -constant.PLAYER_X_MOVE
+                    if not right:
+                        player_x_change = -constant.PLAYER_X_MOVE
+                    left = True
+                # move player right
                 case pygame.K_d:
-                    player_x_change = constant.PLAYER_X_MOVE
+                    if not left:
+                        player_x_change = constant.PLAYER_X_MOVE
+                    right = True
+                # move player up
                 case pygame.K_w:
-                    player_y_change = -constant.PLAYER_Y_MOVE
+                    if not down:
+                        player_y_change = -constant.PLAYER_Y_MOVE
+                    up = True
+                # move player down
                 case pygame.K_s:
-                    player_y_change = constant.PLAYER_Y_MOVE
+                    if not up:
+                        player_y_change = constant.PLAYER_Y_MOVE
+                    down = True
 
+        # check if keystroke pressed is ADWS (for left, right, up and down)
         if event.type == pygame.KEYUP:
             match event.key:
+                # set character x velocity to 0 when 'a' is released
                 case pygame.K_a:
-                    player_x_change = 0
+                    if not right:
+                        player_x_change = 0
+                    left = False
+                # set character x velocity to 0 when 'd' is released
                 case pygame.K_d:
-                    player_x_change = 0
+                    if not left:
+                        player_x_change = 0
+                    right = False
+                # set character y velocity to 0 when 'w' is released
                 case pygame.K_w:
-                    player_y_change = 0
+                    if not down:
+                        player_y_change = 0
+                    up = False
+                # set character y velocity to 0 when 's' is released
                 case pygame.K_s:
-                    player_y_change = 0
+                    if not up:
+                        player_y_change = 0
+                    down = False
 
     # calling player method to paint the player on the screen
     player_x += player_x_change
